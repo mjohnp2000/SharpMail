@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SharpMail – Rewrite Emails with Confidence</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px auto;
+      max-width: 800px;
+      padding: 0 20px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+    select, button {
+      font-size: 1rem;
+      padding: 10px;
+      margin-right: 10px;
+      margin-bottom: 20px;
+    }
+    #output {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      min-height: 100px;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>SharpMail</h1>
+  <h2>Rewrite emails with confidence.</h2>
+
+  <label for="input">Paste your message below:</label>
+  <textarea id="input" placeholder="hey, haven’t heard back yet. wondering if you're still interested..."></textarea>
+
+  <label for="tone">Choose a tone:</label>
+  <select id="tone">
+    <option>Friendly Casual</option>
+    <option>Assertive Casual</option>
+    <option>Friendly Formal</option>
+    <option>Assertive Formal</option>
+    <option>Friendly Professional</option>
+    <option>Assertive Professional</option>
+  </select>
+
+  <button id="rewriteBtn">Rewrite Email</button>
+
+  <h3>Polished Email:</h3>
+  <div id="output">Your improved email will appear here.</div>
+
+  <button onclick="copyOutput()">Copy to Clipboard</button>
+  <button onclick="regenerate()">Try Again</button>
+
+  <footer>
+    Powered by OpenAI | Contact | Privacy
+  </footer>
+
+  <script>
+    function copyOutput() {
+      const output = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(output);
+      alert("Copied!");
+    }
+
+    function regenerate() {
+      alert("This will regenerate in full version.");
+    }
+
+    // You'll connect your OpenAI API call here in Task 4
+  </script>
+
+</body>
+</html>
