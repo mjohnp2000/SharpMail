@@ -74,18 +74,70 @@
   </footer>
 
   <script>
-    function copyOutput() {
-      const output = document.getElementById('output').innerText;
-      navigator.clipboard.writeText(output);
-      alert("Copied!");
-    }
+  function copyOutput() {
+    const output = document.getElementById('output').innerText;
+    navigator.clipboard.writeText(output);
+    alert("Copied!");
+  }
 
-    function regenerate() {
-      alert("This will regenerate in full version.");
-    }
+  function regenerate() {
+    alert("This will regenerate in full version.");
+  }
 
-    // You'll connect your OpenAI API call here in Task 4
-  </script>
+  function buildPrompt(input, tone) {
+    return `
+You are a professional email editor. Rewrite the following message in a ${tone} tone. The result should be clear, well-structured, and grammatically correct. Maintain the original meaning, but improve the flow and professionalism as appropriate for the selected tone.
+
+Only return the revised message—do not include explanations or headings.
+
+Message:
+"""
+${input}
+"""`;
+  }
+
+  async function sendToOpenAI(prompt) {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_API_KEY" // Replace with your API key for local testing
+      },
+      body: JSON.stringify({
+        model: "gpt-4", // or "gpt-3.5-turbo"
+        messages: [
+          {
+            role: "system",
+            content: "You are a professional email editor."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0.7
+      })
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  }
+
+  document.getElementById("rewriteBtn").addEventListener("click", async () => {
+    const input = document.getElementById("input").value;
+    const tone = document.getElementById("tone").value;
+    const prompt = buildPrompt(input, tone);
+
+    document.getElementById("output").innerText = "Rewriting...";
+
+    try {
+      const polished = await sendToOpenAI(prompt);
+      document.getElementById("output").innerText = polished;
+    } catch (err) {
+      document.getElementById("output").innerText = "Error: " + err.message;
+    }
+  });
+</script>
 
 </body>
 </html>
